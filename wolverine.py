@@ -10,8 +10,15 @@ import openai
 from termcolor import cprint
 
 # Set up the OpenAI API
-with open("openai_key.txt") as f:
-    openai.api_key = f.read().strip()
+_keyfile = "openai_key.txt"
+_scriptdir = os.path.dirname(os.path.realpath(__file__)) + os.pathsep
+if os.path.exists(_keyfile):
+    with open(_keyfile) as f: openai.api_key = f.read().strip()
+elif os.path.exists(_scriptdir + _keyfile):
+    with open(_scriptdir + _keyfile) as f: openai.api_key = f.read().strip()
+elif "openai_key" in os.environ:
+    openai.api_key = os.environ["openai_key"]
+else: raise Exception("openai_key(.txt) not found!")
 
 
 def run_script(script_name, script_args):
