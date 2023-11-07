@@ -1,2 +1,6 @@
 venv
+.venv
+.env
+env/
+.vscode/
 openai_key.txt
